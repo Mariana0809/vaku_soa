@@ -1,0 +1,25 @@
+::placeholder {
+  font-weight: bold;
+}
+
+.shadow-login {
+  -webkit-box-shadow: 19px 21px 14px -10px rgba(0, 35, 51, 0.14);
+  -moz-box-shadow: 19px 21px 14px -10px rgba(0, 35, 51, 0.14);
+  box-shadow: 19px 21px 14px -10px rgba(0, 35, 51, 0.14);
+
+  -webkit-box-shadow: -16px -13px 47px -21px rgba(0, 35, 51, 0.25);
+  -moz-box-shadow: -16px -13px 47px -21px rgba(0, 35, 51, 0.25);
+  box-shadow: -16px -13px 47px -21px rgba(0, 35, 51, 0.25);
+}
+
+.shade::after{
+    content: "";
+    position: absolute;
+    bottom: 20px;
+    left: 630px;
+    width: 15%;
+    height: 40%;
+    transform: scale3d(-1.4, 0.4, 0.7);
+    clip-path: ellipse(43% 14% at 50% 50%);
+    background-color: #9999993b;
+}

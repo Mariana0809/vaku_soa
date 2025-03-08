@@ -1,34 +1,13 @@
-html,body {
-    height: 100%;
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
+::placeholder{
+    font-weight: bold;
 }
 
-.login-container {
-    background-color: white;
-    border-radius: 15px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-    padding: 40px;
-    max-width: 900px;
-    width: 90%;
-}
-.form-control {
-    background-color: #e5f2eb;
-    border: none;
-    border-radius: 10px;
-    padding: 12px;
-}
-.form-control:focus {
-    box-shadow: none;
-    border: 2px solid #aacaba;
-}
-.btn-custom {
-    background-color: #0a2533;
-    color: white;
-    border-radius: 20px;
-    padding: 10px 20px;
-}
-.btn-custom:hover {
-    background-color: #05141b;
-}
+.shadow-login {
+    -webkit-box-shadow: 19px 21px 14px -10px rgba(0, 35, 51, 0.14);
+    -moz-box-shadow: 19px 21px 14px -10px rgba(0, 35, 51, 0.14);
+    box-shadow: 19px 21px 14px -10px rgba(0, 35, 51, 0.14);
+  
+    -webkit-box-shadow: -16px -13px 47px -21px rgba(0, 35, 51, 0.25);
+    -moz-box-shadow: -16px -13px 47px -21px rgba(0, 35, 51, 0.25);
+    box-shadow: -16px -13px 47px -21px rgba(0, 35, 51, 0.25);
+  }

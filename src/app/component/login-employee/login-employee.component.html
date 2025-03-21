@@ -6,28 +6,30 @@
   >
     <div class="w-2/3 flex flex-col items-center">
       <div class="font-leckerli-one text-6xl mb-5">vaku</div>
-      <form
+      <form (ngSubmit)="onSubmit()"
         class="w-full flex flex-col justify-center items-center font-poppins"
       >
         <div class="mb-3">
           <input
             type="email"
             class="bg-light-grayish-cyan md:w-96 lg:w-80 2xl:w-lg p-3 rounded-2xl outline-none inset-shadow-sm text-maastricht-Blue font-medium"
-            id=""
-            name=""
+            id="email"
+            name="email"
             placeholder="CORREO"
+            [(ngModel)]="credenciales.persEmail"
           />
         </div>
         <div>
           <input
             type="password"
             class="bg-light-grayish-cyan md:w-96 lg:w-80 2xl:w-lg p-3 rounded-2xl outline-none inset-shadow-sm text-maastricht-Blue font-medium"
-            id=""
-            name=""
+            id="password"
+            name="password"
             placeholder="CONTRASEÑA"
+            [(ngModel)]="credenciales.persPassword"
           />
         </div>
-        <button
+        <button (click)="logeearse()"
           class="w-32 md:w-44 2xl:w-sm h-12 mt-5 bg-maastricht-Blue text-white border-button transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-110"
         >
           Iniciar sesión

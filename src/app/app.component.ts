@@ -5,8 +5,7 @@ import { LoginEmployeeComponent } from './component/login-employee/login-employe
 
 @Component({
     selector: 'app-root',
-    standalone: true,
-    imports: [RouterOutlet, LoginChildrenComponent, LoginEmployeeComponent],
+    imports: [RouterOutlet],
     templateUrl: './app.component.html',
     styleUrl: './app.component.css'
 })

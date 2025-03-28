@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { LoginChildrenComponent } from './login-children/login-children.component';
+import { LoginChildrenComponent } from './component/login-children/login-children.component';
 import { LoginEmployeeComponent } from './component/login-employee/login-employee.component';
 
 @Component({

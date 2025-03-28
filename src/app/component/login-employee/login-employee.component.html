@@ -1,21 +1,54 @@
-<div class="d-flex justify-content-center align-items-center vh-100">
-    <div class="login-container d-flex flex-column flex-lg-row align-items-center">
-        
-        <div class="text-center w-50 p-3">
-            <img src="" alt="logo de vakuapp" class="img-fluid mb-3">
-            <form>
-                <div class="mb-3">
-                    <input type="text" class="form-control" id="username" placeholder="CORREO">
-                </div>
-                <div class="mb-3">
-                    <input type="password" class="form-control" id="password" placeholder="CONTRASEÑA">
-                </div>
-                <button type="submit" class="btn btn-custom w-100">Iniciar sesión</button>
-            </form>
+<div
+  class="w-full h-screen bg-light-grayish-cyan flex items-center justify-center"
+>
+  <div
+    class="w-full max-lg:h-auto p-4 h-2/3 rounded-2xl bg-white flex items-center justify-center mx-5 shadow-login"
+  >
+    <div class="w-2/3 flex flex-col items-center">
+      <div class="font-leckerli-one text-6xl mb-5">vaku</div>
+      <form
+        class="w-full flex flex-col justify-center items-center font-poppins"
+      >
+        <div class="mb-3">
+          <input
+            type="email"
+            class="bg-light-grayish-cyan md:w-96 lg:w-80 2xl:w-lg p-3 rounded-2xl outline-none inset-shadow-sm text-maastricht-Blue font-medium"
+            id="email"
+            name="email"
+            placeholder="CORREO"
+            [(ngModel)]="credenciales.persEmail"
+          />
         </div>
-
-        <div class="w-50 d-flex justify-content-center">
-            <img src="https://cdn.pixabay.com/photo/2017/09/06/20/35/vaccination-2722937_1280.jpg" class="img-fluid" alt="Imagen de login">
+        <div>
+          <input
+            type="password"
+            class="bg-light-grayish-cyan md:w-96 lg:w-80 2xl:w-lg p-3 rounded-2xl outline-none inset-shadow-sm text-maastricht-Blue font-medium"
+            id="password"
+            name="password"
+            placeholder="CONTRASEÑA"
+            [(ngModel)]="credenciales.persPassword"
+          />
         </div>
+        <button (click)="logeearse()"
+          class="w-32 md:w-44 2xl:w-sm h-12 mt-5 bg-maastricht-Blue text-white border-button transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-110"
+        >
+          Iniciar sesión
+        </button>
+        <a class="p-4" (click)="navigateToLoginchildren()">Eres un paciente</a>
+      </form>
     </div>
+
+    <div class="w-full flex justify-center items-center p-4 max-lg:hidden">
+      <img
+        src="assets/img/Layer.webp"
+        class="lg:w-[55%] 2xl:w-[45%] z-10 absolute"
+        alt="Imagen de login"
+      />
+      <img
+        src="assets/img/8817508.webp"
+        class="2xl:w-[55%] relative z-20"
+        alt="Imagen de login"
+      />
+    </div>
+  </div>
 </div>

@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Credenciales } from './component/login-employee/credencialesEmployee';
 import { Observable } from 'rxjs';
+import { AuthResponse } from './models/authResponse';
 
 @Injectable({
   providedIn: 'root',
@@ -11,12 +12,13 @@ export class LoginEmployeeService {
 
   constructor(private ClienteHttp: HttpClient) {}
 
-  login(credenciales: Credenciales): Observable<Object> {
+  login(credenciales: Credenciales): Observable<AuthResponse> {
+    
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       'Accept': 'application/json',
     });
 
-    return this.ClienteHttp.post(this.urlBase, credenciales, { headers });
+    return this.ClienteHttp.post<AuthResponse>(this.urlBase, credenciales, { headers });
   }
 }

@@ -15,17 +15,13 @@ export class LoginEmployeeComponent {
 
   constructor(private loginEmployeeService: LoginEmployeeService, private router: Router) {}
 
-  onSubmit() {
-    console.log("Se hizo clic en el botón de login");
-    this.logeearse();
-  }
-
 
   logeearse() {
-    console.log('Botón presionado');
     this.loginEmployeeService.login(this.credenciales).subscribe({
-      next: (datos) => {
-        console.log('Respuesta completa del backend:', datos);
+      next: (dato) => {
+        console.log('Respuesta completa del backend:', dato);
+        localStorage.setItem('token',dato.token);
+        this.router.navigate(['/user-list']);
       },
       error: (error: any) => {
         console.log('Error en la petición:', error);

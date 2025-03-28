@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import {Router} from '@angular/router';
 import { CredencialesChildren } from './credencialesChildren';
 import { LoginChildrenService } from '../../login-children.service';
-import { error } from 'console';
 import { FormsModule } from '@angular/forms';
 
 @Component({
@@ -21,6 +20,8 @@ export class LoginChildrenComponent {
     this.loginChildrenService.loginChildren(this.credenciales).subscribe({
       next:(dato)=>{
         console.log('Respuesta completa del backend:', dato);
+        localStorage.setItem('token',dato.token);
+        this.router.navigate(['/user-list']);
       },
       error:(error:any)=>{
         console.log('Error en la petición:', error);
@@ -32,4 +33,3 @@ export class LoginChildrenComponent {
     this.router.navigate(['/login-employee']);
   }
 }
-

@@ -4,52 +4,46 @@
 >
   <!-- Contenedor secundario -->
   <div
-    class="w-full max-lg:h-auto p-4 h-2/3 rounded-2xl bg-white flex flex-col justify-center mx-5 shadow-login"
+    class="w-full max-lg:h-auto p-4 h-2/3 rounded-2xl bg-white flex items-center justify-center mx-5 shadow-login"
   >
-    <a class="font-poppins font-bold w-55 cursor-pointer md:text-xl text-maastricht-Blue relative inline-block" (click)="navigateToLoginemployee()">Personal de salud</a>
-
-    <div class="w-full flex items-center justify-center max-h-[-webkit-fill-available]">
-      <!-- Columna del formulario -->
-      <div class="w-2/3 flex flex-col items-center">
-        <!-- Contenedor para la imagen -->
-        <div class="font-leckerli-one text-6xl mb-5 pt-2">vaku</div>
-        <!-- Contenedor del formulario -->
-        <form
-          class="w-full flex flex-col justify-center items-center font-poppins"
+    <!-- Columna del formulario -->
+    <div class="w-2/3 flex flex-col items-center">
+      <!-- Contenedor para la imagen -->
+      <div class="font-leckerli-one text-6xl mb-5">vaku</div>
+      <!-- Contenedor del formulario -->
+      <form
+        class="w-full flex flex-col justify-center items-center font-poppins"
+      >
+        <!-- Campo de Documento-->
+        <div>
+          <input
+            type="text"
+            class="bg-light-grayish-cyan md:w-96 lg:w-80 2xl:w-lg p-3 rounded-2xl outline-none inset-shadow-sm"
+            id=""
+            name=""
+            placeholder="CONTRASEÑA"
+          />
+        </div>
+        <!-- Botón de inicio de sesión -->
+        <button
+          class="w-32 md:w-44 2xl:w-sm h-12 mt-5 bg-maastricht-Blue text-white border-button transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-110"
         >
-          <!-- Campo de Documento-->
-          <div>
-            <input
-              type="text"
-              class="bg-light-grayish-cyan md:w-96 lg:w-80 2xl:w-lg p-3 rounded-2xl outline-none inset-shadow-sm"
-              id="documento"
-              name="documento"
-              [(ngModel)]="credenciales.persDocument"
-              placeholder="DOCUMENTO"
-            />
-          </div>
-          <!-- Botón de inicio de sesión -->
-          <button (click)="logeearse()"
-            class="w-32 md:w-44 2xl:w-sm h-12 mt-5 bg-maastricht-Blue text-white border-button transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-110"
-          >
-            Iniciar sesión
-          </button>
-        </form>
-      </div>
-
-      <!-- Columna de la imagen grande -->
-      <div class="w-full flex justify-center items-center p-4 max-lg:hidden">
-        <img
-          src="assets/img/Layer.webp"
-          class="lg:w-[55%] 2xl:w-[40%] z-10 absolute"
-          alt="Imagen de login"
-        />
-        <img
-          src="assets/img/8817508.webp"
-          class="2xl:w-[50%] relative z-20"
-          alt="Imagen de login"
-        />
-      </div>
+          Iniciar sesión
+        </button>
+      </form>
+    </div>
+    <!-- Columna de la imagen grande -->
+    <div class="w-full flex justify-center items-center p-4 max-lg:hidden">
+      <img
+        src="assets/img/Layer.webp"
+        class="lg:w-[55%] 2xl:w-[45%] z-10 absolute"
+        alt="Imagen de login"
+      />
+      <img
+        src="assets/img/8817508.webp"
+        class="2xl:w-[55%] relative z-20"
+        alt="Imagen de login"
+      />
     </div>
   </div>
 </div>

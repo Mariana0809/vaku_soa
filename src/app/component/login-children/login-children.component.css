@@ -12,17 +12,14 @@
   box-shadow: -16px -13px 47px -21px rgba(0, 35, 51, 0.25);
 }
 
-a::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  width: 0%;
-  height: 2px;
-  background-color: var(--color-maastricht-Blue);
-  transition: width 0.3s ease-in-out;
-}
-
-a:hover::after {
-  width: 100%;
+.shade::after{
+    content: "";
+    position: absolute;
+    bottom: 20px;
+    left: 630px;
+    width: 15%;
+    height: 40%;
+    transform: scale3d(-1.4, 0.4, 0.7);
+    clip-path: ellipse(43% 14% at 50% 50%);
+    background-color: #9999993b;
 }

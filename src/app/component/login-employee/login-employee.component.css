@@ -1,13 +1,28 @@
-::placeholder{
-    font-weight: bold;
+::placeholder {
+  font-weight: bold;
 }
 
 .shadow-login {
-    -webkit-box-shadow: 19px 21px 14px -10px rgba(0, 35, 51, 0.14);
-    -moz-box-shadow: 19px 21px 14px -10px rgba(0, 35, 51, 0.14);
-    box-shadow: 19px 21px 14px -10px rgba(0, 35, 51, 0.14);
-  
-    -webkit-box-shadow: -16px -13px 47px -21px rgba(0, 35, 51, 0.25);
-    -moz-box-shadow: -16px -13px 47px -21px rgba(0, 35, 51, 0.25);
-    box-shadow: -16px -13px 47px -21px rgba(0, 35, 51, 0.25);
-  }
+  -webkit-box-shadow: 19px 21px 14px -10px rgba(0, 35, 51, 0.14);
+  -moz-box-shadow: 19px 21px 14px -10px rgba(0, 35, 51, 0.14);
+  box-shadow: 19px 21px 14px -10px rgba(0, 35, 51, 0.14);
+
+  -webkit-box-shadow: -16px -13px 47px -21px rgba(0, 35, 51, 0.25);
+  -moz-box-shadow: -16px -13px 47px -21px rgba(0, 35, 51, 0.25);
+  box-shadow: -16px -13px 47px -21px rgba(0, 35, 51, 0.25);
+}
+
+a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 0%;
+  height: 2px;
+  background-color: var(--color-maastricht-Blue);
+  transition: width 0.3s ease-in-out;
+}
+
+a:hover::after {
+  width: 100%;
+}

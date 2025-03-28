@@ -1,0 +1,28 @@
+<div class="w-full h-dvh flex justify-center items-center">
+  <div class="relative overflow-x-auto">
+    <table
+      class="w-3xl text-sm text-left rtl:text-right text-maastricht-Blue "
+    >
+      <thead
+        class="text-xs text-gray-700 uppercase bg-light-grayish-cyan text-center font-bold"
+      >
+        <tr>
+          <th scope="col" class="px-6 py-3">Nombre</th>
+          <th scope="col" class="px-6 py-3">Apellido</th>
+          <th scope="col" class="px-6 py-3">Rol</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr
+          *ngFor="let user of users"
+          class="bg-white border-b text-center"
+        >
+          <td class="px-6 py-4">{{ user.persNames }}</td>
+          <td class="px-6 py-4">{{ user.persLastNames }}</td>
+          <td class="px-6 py-4">{{ user.persRole }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

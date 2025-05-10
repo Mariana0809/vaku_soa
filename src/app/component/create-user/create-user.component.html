@@ -1,0 +1,140 @@
+<form
+  (ngSubmit)="onSubmit()"
+  class="w-full space-y-4 font-semibold p-6 box-shadow-card rounded-2xl"
+>
+  <p class="font-bold text-3xl text-dark-green">Datos del empleado</p>
+
+  <div class="flex gap-3">
+    <input
+      class="w-full border border-background-card p-3 rounded-lg m-2"
+      type="text"
+      id="persNames"
+      name="persNames"
+      [(ngModel)]="empleado.persNames"
+      placeholder="Nombres"
+      required
+    />
+
+    <input
+      class="w-full border border-background-card p-3 rounded-lg m-2"
+      type="text"
+      id="persLastNames"
+      name="persLastNames"
+      [(ngModel)]="empleado.persLastNames"
+      placeholder="Apellidos"
+      required
+    />
+  </div>
+
+  <div class="flex gap-3">
+    <input
+      class="w-full border border-background-card p-3 rounded-lg m-2"
+      type="text"
+      id="persDocument"
+      name="persDocument"
+      [(ngModel)]="empleado.persDocument"
+      placeholder="Documento"
+      required
+    />
+
+    <input
+      class="w-full border border-background-card p-3 rounded-lg m-2"
+      type="text"
+      id="persPhone"
+      name="persPhone"
+      [(ngModel)]="empleado.persPhone"
+      placeholder="Teléfono"
+      required
+    />
+  </div>
+
+  <div class="flex gap-3">
+    <input
+      class="w-full border border-background-card p-3 rounded-lg m-2"
+      type="email"
+      id="persEmail"
+      name="persEmail"
+      [(ngModel)]="empleado.persEmail"
+      placeholder="Correo electrónico"
+      required
+    />
+
+    <input
+      class="w-full border border-background-card p-3 rounded-lg m-2"
+      type="text"
+      id="persAddress"
+      name="persAddress"
+      [(ngModel)]="empleado.persAddress"
+      placeholder="Dirección"
+      required
+    />
+  </div>
+
+  <div class="flex gap-3">
+    <div class="w-full m-2">
+      <label class="text-gray mb-1 block">Fecha de Nacimiento</label>
+      <input
+        class="w-full border border-background-card p-3 rounded-lg"
+        type="date"
+        id="persDateBirth"
+        name="persDateBirth"
+        [(ngModel)]="empleado.persDateBirth"
+        required
+      />
+    </div>
+
+    <div class="w-full m-2">
+      <label class="text-gray mb-1 block">Rol / Cargo</label>
+      <select
+        class="w-full border border-background-card p-3 rounded-lg"
+        id="persRole"
+        name="persRole"
+        [(ngModel)]="empleado.persRole"
+        required
+      >
+        <option value="" disabled selected>Seleccione</option>
+        <option value="Enfermero">Enfermero</option>
+        <option value="Jefe de enfermería">Jefe de enfermería</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="flex gap-3">
+    <div class="w-full m-2">
+      <label class="font-bold text-dark-green block mb-2">Sexo</label>
+      <select
+        class="w-full border border-background-card p-3 rounded-lg"
+        id="persSex"
+        name="persSex"
+        [(ngModel)]="empleado.persSex"
+        required
+      >
+        <option value="" disabled selected>Seleccione</option>
+        <option value="Masculino">Masculino</option>
+        <option value="Femenino">Femenino</option>
+      </select>
+    </div>
+
+    <div class="w-full m-2">
+      <label class="font-bold text-dark-green block mb-2">Contraseña</label>
+      <input
+        type="password"
+        id="persPassword"
+        name="persPassword"
+        [(ngModel)]="empleado.persPassword"
+        placeholder="Contraseña"
+        class="w-full border border-background-card p-3 rounded-lg"
+        required
+      />
+    </div>
+  </div>
+
+  <div class="flex justify-end gap-4 mt-5 m-2">
+    <button
+      type="submit"
+      class="bg-button flex justify-center items-center font-bold text-surface box-shadow-card w-30 h-10 cursor-pointer bg-green-600 rounded text-white hover:bg-green-700"
+    >
+      Guardar
+    </button>
+  </div>
+</form>

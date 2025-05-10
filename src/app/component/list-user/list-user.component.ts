@@ -22,4 +22,17 @@ export class ListUserComponent implements OnInit {
       this.empleados = data;
     });
   }
+
+  eliminarEmpleado(id: string) {
+    const confirmacion = confirm('¿Estás seguro de eliminar este empleado?');
+    if (confirmacion) {
+      const docRef = doc(this.firestore, `empleados/${id}`);
+      deleteDoc(docRef).then(() => {
+        alert('Empleado eliminado');
+      }).catch(err => {
+        console.error(err);
+        alert('Error al eliminar el empleado');
+      });
+    }
+  }
 }

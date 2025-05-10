@@ -40,6 +40,15 @@ export class LoginEmployeeComponent {
         this.router.navigate(['/home']);
     }).catch(err => {
       console.error("Error en login con GitHub:", err);
-    });
-  }
+    });
+  }
+  // Iniciar sesión con Facebook
+  loginFacebook() {
+    this.authService.loginWithFacebook().then(cred => {
+      console.log("Facebook login exitoso", cred);
+      this.router.navigate(['/home']);
+    }).catch(err => {
+      console.error("Error en login con Facebook:", err);
+    });
+  }
 }

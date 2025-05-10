@@ -51,4 +51,12 @@ export class LoginEmployeeComponent {
       console.error("Error en login con Facebook:", err);
     });
   }
+  resetearContrasena(email: string) {
+  this.authService.resetPassword(email).then(() => {
+    alert('Se ha enviado un correo para restablecer tu contraseña.');
+  }).catch(error => {
+    console.error('Error al enviar correo de restablecimiento:', error);
+    alert('No se pudo enviar el correo. Asegúrate de que el correo esté registrado.');
+  });
+}
 }

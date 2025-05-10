@@ -1,15 +1,15 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { LoginChildrenComponent } from './component/login-children/login-children.component';
-import { LoginEmployeeComponent } from './component/login-employee/login-employee.component';
+import { CommonModule } from '@angular/common';
+
 
 @Component({
-    selector: 'app-root',
-    standalone: true,
-    imports: [RouterOutlet, LoginChildrenComponent, LoginEmployeeComponent],
-    templateUrl: './app.component.html',
-    styleUrl: './app.component.css'
+  selector: 'app-root',
+  standalone: true,
+  imports: [CommonModule, RouterOutlet],
+  template: `
+    <router-outlet></router-outlet>
+  `,
+  styleUrls: ['./app.component.css']
 })
-export class AppComponent {
-    title = 'vaku_soa';
-}
+export class AppComponent {}

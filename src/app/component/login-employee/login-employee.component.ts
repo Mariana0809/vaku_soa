@@ -23,4 +23,14 @@ export class LoginEmployeeComponent {
       console.error("Error en login con correo:", err);
     });
   }
+
+  // Iniciar sesión con Google
+  loginGoogle() {
+    this.authService.loginWithGoogle().then(cred => {
+      console.log("Google login exitoso", cred);
+        this.router.navigate(['/home']);
+    }).catch(err => {
+      console.error("Error en login con Google:", err);
+    });
+  }
 }

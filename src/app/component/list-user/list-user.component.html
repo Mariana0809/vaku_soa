@@ -21,11 +21,13 @@
         <td class=" space-x-2">
           <button
             class="bg-green-600 text-white font-bold px-2 py-1 rounded m-2  hover:bg-green-700"
+            (click)="abrirModal(emp)"
           >
             Editar
           </button>
           <button
-            class="bg-red-500 text-white font-bold px-2 py-1 rounded m-2" (click)="eliminarEmpleado(emp.id)"
+            class="bg-red-500 text-white font-bold px-2 py-1 rounded m-2"
+            (click)="eliminarEmpleado(emp.id)"
           >
             Eliminar
           </button>
@@ -33,4 +35,83 @@
       </tr>
     </tbody>
   </table>
+</div>
+
+<!-- Modal de edición mejorado con fondo blanco -->
+<div
+  *ngIf="modalAbierto"
+  class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+>
+  <div class="bg-white p-4 rounded-sm shadow-lg w-full max-w-xl">
+    <h3 class="text-2xl font-bold text-dark-cyan mb-6">Editar Empleado</h3>
+
+    <form
+      (ngSubmit)="guardarCambios()"
+      class="border border-gray-300 p-3 bg-gray-50 space-y-5"
+    >
+      <div class="space-y-2">
+        <label class="block font-semibold text-dark-green" for="role">Rol</label>
+        <select
+          [(ngModel)]="empleadoEdit.persRole"
+          name="role"
+          id="role"
+          class="w-full border border-gray-300 p-3 rounded-lg"
+          required
+        >
+          <option value="" disabled selected>{{empleadoEdit.persRole}}</option>
+          <option value="Enfermero">Enfermero</option>
+          <option value="Jefe de enfermería">Jefe de enfermería</option>
+        </select>
+      </div>
+
+      <div class="space-y-2">
+        <label class="block font-semibold text-dark-green" for="email">Correo</label>
+        <input
+          type="email"
+          id="email"
+          [(ngModel)]="empleadoEdit.persEmail"
+          name="email"
+          class="w-full border border-gray-300 p-3 rounded-lg"
+        />
+      </div>
+
+      <div class="space-y-2">
+        <label class="block font-semibold text-dark-green" for="phone">Teléfono</label>
+        <input
+          type="text"
+          id="phone"
+          [(ngModel)]="empleadoEdit.persPhone"
+          name="phone"
+          class="w-full border border-gray-300 p-3 rounded-lg"
+        />
+      </div>
+
+      <div class="space-y-2">
+        <label class="block font-semibold text-dark-green" for="address">Dirección</label>
+        <input
+          type="text"
+          id="address"
+          [(ngModel)]="empleadoEdit.persAddress"
+          name="address"
+          class="w-full border border-gray-300 p-3 rounded-lg"
+        />
+      </div>
+
+      <div class="flex justify-end gap-4 pt-4">
+        <button
+          type="button"
+          (click)="cerrarModal()"
+          class="flex justify-center items-center font-bold text-gray-700 bg-gray-200 rounded w-28 h-10 hover:bg-gray-300"
+        >
+          Cancelar
+        </button>
+        <button
+          type="submit"
+          class="bg-green-600 rounded text-white font-bold w-28 h-10 hover:bg-green-700"
+        >
+          Guardar
+        </button> 
+      </div>
+    </form>
+  </div>
 </div>

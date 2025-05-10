@@ -6,6 +6,7 @@ import {
   FacebookAuthProvider,
   GithubAuthProvider,
   GoogleAuthProvider,
+  sendPasswordResetEmail,
 } from '@angular/fire/auth';
 import { signOut } from 'firebase/auth';
 
@@ -34,5 +35,8 @@ export class AuthService {
   loginWithGoogle() {
     const provider = new GoogleAuthProvider();
     return signInWithPopup(this.auth, provider);
+  }
+  resetPassword(email:string){
+    return sendPasswordResetEmail(this.auth, email)
   }
 }

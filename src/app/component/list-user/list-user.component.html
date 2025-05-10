@@ -1,0 +1,36 @@
+<!-- Lista de empleados -->
+<div class="p-4">
+  <h2 class="text-xl font-bold mb-4">Lista de Empleados</h2>
+
+  <table class="w-full border">
+    <thead class="bg-gray-200">
+      <tr>
+        <th class="p-2">Nombre</th>
+        <th class="p-2">Documento</th>
+        <th class="p-2">Rol</th>
+        <th class="p-2">Teléfono</th>
+        <th class="p-2">Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let emp of empleados">
+        <td class="p-2">{{ emp.persNames }} {{ emp.persLastNames }}</td>
+        <td class="p-2">{{ emp.persDocument }}</td>
+        <td class="p-2">{{ emp.persRole }}</td>
+        <td class="p-2">{{ emp.persPhone }}</td>
+        <td class=" space-x-2">
+          <button
+            class="bg-green-600 text-white font-bold px-2 py-1 rounded m-2  hover:bg-green-700"
+          >
+            Editar
+          </button>
+          <button
+            class="bg-red-500 text-white font-bold px-2 py-1 rounded m-2"
+          >
+            Eliminar
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

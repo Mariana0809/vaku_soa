@@ -33,4 +33,13 @@ export class LoginEmployeeComponent {
       console.error("Error en login con Google:", err);
     });
   }
+  // Iniciar sesión con GitHub
+  loginGithub() {
+    this.authService.loginWithGithub().then(cred => {
+      console.log("GitHub login exitoso", cred);
+        this.router.navigate(['/home']);
+    }).catch(err => {
+      console.error("Error en login con GitHub:", err);
+    });
+  }
 }

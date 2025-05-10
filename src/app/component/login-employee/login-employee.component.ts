@@ -1,8 +1,7 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
 import { FormsModule } from '@angular/forms';
-import { Credenciales } from './credencialesEmployee';
-import { LoginEmployeeService } from '../../login-employee.service';
-import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-login-employee',
@@ -11,25 +10,27 @@ import {Router} from '@angular/router';
   styleUrl: './login-employee.component.css',
 })
 export class LoginEmployeeComponent {
-  credenciales: Credenciales = new Credenciales();
+  credenciales = { persEmail: '', persPassword: '' };
 
-  constructor(private loginEmployeeService: LoginEmployeeService, private router: Router) {}
+  constructor(private authService: AuthService, private router: Router) {}
 
-
-  logeearse() {
-    this.loginEmployeeService.login(this.credenciales).subscribe({
-      next: (dato) => {
-        console.log('Respuesta completa del backend:', dato);
-        localStorage.setItem('token',dato.token);
-        this.router.navigate(['/user-list']);
-      },
-      error: (error: any) => {
-        console.log('Error en la petición:', error);
-      },
+  // Iniciar sesión con correo
+  logeearse(email: string, password: string) {
+    this.authService.loginWithEmail(email, password).then(cred => {
+      console.log("Inicio con correo exitoso", cred);
+      this.router.navigate(['/home']);
+    }).catch(err => {
+      console.error("Error en login con correo:", err);
     });
   }
 
-  navigateToLoginchildren() {
-    this.router.navigate(['/login-children']);
+  // Iniciar sesión con Google
+  loginGoogle() {
+    this.authService.loginWithGoogle().then(cred => {
+      console.log("Google login exitoso", cred);
+        this.router.navigate(['/home']);
+    }).catch(err => {
+      console.error("Error en login con Google:", err);
+    });
   }
 }

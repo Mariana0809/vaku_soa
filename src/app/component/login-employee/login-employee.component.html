@@ -1,54 +1,63 @@
-<div
-  class="w-full h-screen bg-light-grayish-cyan flex items-center justify-center"
->
-  <div
-    class="w-full max-lg:h-auto p-4 h-2/3 rounded-2xl bg-white flex items-center justify-center mx-5 shadow-login"
-  >
-    <div class="w-2/3 flex flex-col items-center">
-      <div class="font-leckerli-one text-6xl mb-5">vaku</div>
-      <form
-        class="w-full flex flex-col justify-center items-center font-poppins"
-      >
-        <div class="mb-3">
-          <input
-            type="email"
-            class="bg-light-grayish-cyan md:w-96 lg:w-80 2xl:w-lg p-3 rounded-2xl outline-none inset-shadow-sm text-maastricht-Blue font-medium"
-            id="email"
-            name="email"
-            placeholder="CORREO"
-            [(ngModel)]="credenciales.persEmail"
-          />
-        </div>
-        <div>
-          <input
-            type="password"
-            class="bg-light-grayish-cyan md:w-96 lg:w-80 2xl:w-lg p-3 rounded-2xl outline-none inset-shadow-sm text-maastricht-Blue font-medium"
-            id="password"
-            name="password"
-            placeholder="CONTRASEÑA"
-            [(ngModel)]="credenciales.persPassword"
-          />
-        </div>
-        <button (click)="logeearse()"
-          class="w-32 md:w-44 2xl:w-sm h-12 mt-5 bg-maastricht-Blue text-white border-button transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-110"
-        >
-          Iniciar sesión
-        </button>
-        <a class="p-4" (click)="navigateToLoginchildren()">Eres un paciente</a>
-      </form>
-    </div>
+<div class="w-full h-screen bg-light-grayish-cyan flex items-center justify-center">
+  <div class="w-full max-lg:h-auto p-4 h-2/3 rounded-2xl bg-white flex flex-col justify-center mx-5 shadow-login">
+    <div class="w-full flex items-center justify-center max-h-[-webkit-fill-available]">
+      <div class="w-2/3 flex flex-col items-center">
+        <div class="font-leckerli-one text-6xl mb-5 pt-2">vaku</div>
+        <form class="w-full flex flex-col justify-center items-center font-poppins" (ngSubmit)="logeearse(credenciales.persEmail, credenciales.persPassword)">
+          <div class="mb-3">
+            <input
+              type="email"
+              class="bg-light-grayish-cyan md:w-96 lg:w-80 2xl:w-lg p-3 rounded-2xl outline-none inset-shadow-sm text-maastricht-Blue font-medium"
+              id="email"
+              name="email"
+              placeholder="CORREO"
+              [(ngModel)]="credenciales.persEmail"
+              required
+            />
+          </div>
+          <div>
+            <input
+              type="password"
+              class="bg-light-grayish-cyan md:w-96 lg:w-80 2xl:w-lg p-3 rounded-2xl outline-none inset-shadow-sm text-maastricht-Blue font-medium"
+              id="password"
+              name="password"
+              placeholder="CONTRASEÑA"
+              [(ngModel)]="credenciales.persPassword"
+              required
+            />
+          </div>
+          <button
+            type="submit"
+            class="w-32 md:w-44 2xl:w-sm h-12 mt-5 bg-maastricht-Blue text-white border-button transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-110"
+          >
+            Iniciar sesión
+          </button>
+        </form>
 
-    <div class="w-full flex justify-center items-center p-4 max-lg:hidden">
-      <img
-        src="assets/img/Layer.webp"
-        class="lg:w-[55%] 2xl:w-[45%] z-10 absolute"
-        alt="Imagen de login"
-      />
-      <img
-        src="assets/img/8817508.webp"
-        class="2xl:w-[55%] relative z-20"
-        alt="Imagen de login"
-      />
+        <!-- Botones de inicio de sesión con Google, Facebook y GitHub -->
+        <div class="w-full flex items-center mt-6 justify-center">
+          <button
+            (click)="loginGoogle()"
+            class="w-15 p-3 mt-3 m-3 bg-maastricht-Blue text-white rounded-2xl border-button transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-110"
+          >
+          <svg width="30" height="30" viewBox="0 0 256 262" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid"><path d="M255.878 133.451c0-10.734-.871-18.567-2.756-26.69H130.55v48.448h71.947c-1.45 12.04-9.283 30.172-26.69 42.356l-.244 1.622 38.755 30.023 2.685.268c24.659-22.774 38.875-56.282 38.875-96.027" fill="#4285F4"/><path d="M130.55 261.1c35.248 0 64.839-11.605 86.453-31.622l-41.196-31.913c-11.024 7.688-25.82 13.055-45.257 13.055-34.523 0-63.824-22.773-74.269-54.25l-1.531.13-40.298 31.187-.527 1.465C35.393 231.798 79.49 261.1 130.55 261.1" fill="#34A853"/><path d="M56.281 156.37c-2.756-8.123-4.351-16.827-4.351-25.82 0-8.994 1.595-17.697 4.206-25.82l-.073-1.73L15.26 71.312l-1.335.635C5.077 89.644 0 109.517 0 130.55s5.077 40.905 13.925 58.602l42.356-32.782" fill="#FBBC05"/><path d="M130.55 50.479c24.514 0 41.05 10.589 50.479 19.438l36.844-35.974C195.245 12.91 165.798 0 130.55 0 79.49 0 35.393 29.301 13.925 71.947l42.211 32.783c10.59-31.477 39.891-54.251 74.414-54.251" fill="#EB4335"/></svg>
+
+          </button>
+        </div>
+      </div>
+
+      <div class="w-full flex justify-center items-center p-4 max-lg:hidden">
+        <img
+          src="assets/img/Layer.webp"
+          class="lg:w-[55%] 2xl:w-[40%] z-10 absolute"
+          alt="Imagen de login"
+        />
+        <img
+          src="assets/img/8817508.webp"
+          class="2xl:w-[50%] relative z-20"
+          alt="Imagen de login"
+        />
+      </div>
     </div>
   </div>
 </div>

@@ -65,3 +65,63 @@ En la aplicación **Vaku**, la autenticación con proveedores sociales (Google, 
    - Solicita contraseña al usuario para validar la cuenta con email.
    - Vincula el proveedor social al usuario existente.
 6. Se manejan errores y se notifican al usuario adecuadamente.
+
+
+# Documentación: Gestión de Empleados (CRUD)
+
+Este conjunto de componentes Angular permite gestionar empleados en Firestore, incluyendo creación, listado, edición y eliminación.
+
+---
+
+## 1. Componente `CreateUserComponent` — Crear Empleado
+
+### Funcionalidad
+
+- Permite ingresar los datos de un nuevo empleado a través de un formulario.
+- Valida:
+  - Que ningún campo esté vacío.
+  - Formato correcto de correo electrónico.
+  - Teléfono numérico con 7 a 15 dígitos.
+  - Fecha de nacimiento no futura.
+  - Que el correo electrónico no exista ya en Firestore.
+- Si las validaciones pasan, crea el nuevo empleado en la colección `empleados`.
+- Limpia el formulario y muestra alertas de éxito o error.
+
+### Campos del empleado
+
+- `persNames`: Nombres
+- `persLastNames`: Apellidos
+- `persDocument`: Documento de identidad
+- `persSex`: Sexo
+- `persAddress`: Dirección
+- `persDateBirth`: Fecha de nacimiento
+- `persRole`: Rol o cargo
+- `persEmail`: Correo electrónico
+- `persPhone`: Teléfono
+
+## 2. Componente `ListUserComponent` — Listar, Editar y Eliminar Empleados
+
+### Funcionalidad
+
+- Obtiene y muestra en tiempo real la lista de empleados desde Firestore.
+- Permite eliminar un empleado con confirmación.
+- Permite editar campos seleccionados (`persRole`, `persEmail`, `persPhone`, `persAddress`) mediante un modal.
+- Valida que los campos obligatorios no estén vacíos antes de guardar los cambios.
+- Muestra alertas para informar al usuario sobre el éxito o error de las acciones realizadas.
+
+### Métodos principales
+
+- `ngOnInit()`  
+  Se suscribe a la colección `empleados` para obtener y actualizar en tiempo real la lista de empleados.
+
+- `eliminarEmpleado(id: string)`  
+  Solicita confirmación al usuario y elimina el empleado con el ID proporcionado en Firestore.
+
+- `abrirModal(empleado: any)`  
+  Abre el modal de edición y copia los datos del empleado seleccionado para modificar.
+
+- `cerrarModal()`  
+  Cierra el modal y limpia los datos temporales de edición.
+
+- `guardarCambios()`  
+  Valida los campos requeridos y actualiza el documento del empleado en Firestore con los cambios realizados.

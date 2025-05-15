@@ -2,10 +2,13 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { FormsModule } from '@angular/forms';
+import { AuthFacebookComponent } from "../auth-facebook/auth-facebook.component";
+import { AuthGithubComponent } from "../auth-github/auth-github.component";
+import { AuthGoogleComponent } from "../auth-google/auth-google.component";
 
 @Component({
   selector: 'app-login-employee',
-  imports: [FormsModule],
+  imports: [FormsModule, AuthFacebookComponent, AuthGithubComponent, AuthGoogleComponent],
   templateUrl: './login-employee.component.html',
   styleUrl: './login-employee.component.css',
 })
@@ -24,33 +27,6 @@ export class LoginEmployeeComponent {
     });
   }
 
-  // Iniciar sesión con Google
-  loginGoogle() {
-    this.authService.loginWithGoogle().then(cred => {
-      console.log("Google login exitoso", cred);
-        this.router.navigate(['/home']);
-    }).catch(err => {
-      console.error("Error en login con Google:", err);
-    });
-  }
-  // Iniciar sesión con GitHub
-  loginGithub() {
-    this.authService.loginWithGithub().then(cred => {
-      console.log("GitHub login exitoso", cred);
-        this.router.navigate(['/home']);
-    }).catch(err => {
-      console.error("Error en login con GitHub:", err);
-    });
-  }
-  // Iniciar sesión con Facebook
-  loginFacebook() {
-    this.authService.loginWithFacebook().then(cred => {
-      console.log("Facebook login exitoso", cred);
-      this.router.navigate(['/home']);
-    }).catch(err => {
-      console.error("Error en login con Facebook:", err);
-    });
-  }
   resetearContrasena(email: string) {
   this.authService.resetPassword(email).then(() => {
     alert('Se ha enviado un correo para restablecer tu contraseña.');

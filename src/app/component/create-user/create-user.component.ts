@@ -1,15 +1,21 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Firestore, collection, addDoc } from '@angular/fire/firestore';
-import { Auth, createUserWithEmailAndPassword } from '@angular/fire/auth';
+import {
+  Firestore,
+  collection,
+  query,
+  where,
+  getDocs,
+  addDoc,
+} from '@angular/fire/firestore';
 
 @Component({
   selector: 'app-create-user',
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './create-user.component.html',
-  styleUrls: ['./create-user.component.css']
+  styleUrls: ['./create-user.component.css'],
 })
 export class CreateUserComponent {
   firestore = inject(Firestore);
@@ -23,15 +29,14 @@ export class CreateUserComponent {
     persDateBirth: '',
     persRole: '',
     persEmail: '',
-    persPhone: ''
+    persPhone: '',
   };
-
-  auth = inject(Auth);
 
   onSubmit() {
     // Validación de campos vacíos
-    const camposVacios = Object.values(this.empleado)
-      .some(valor => !valor || (typeof valor === 'string' && valor.trim() === ''));
+    const camposVacios = Object.values(this.empleado).some(
+      (valor) => !valor || (typeof valor === 'string' && valor.trim() === '')
+    );
     if (camposVacios) {
       alert('Todos los campos son obligatorios');
       return;
@@ -57,8 +62,8 @@ export class CreateUserComponent {
       return;
     }
 
-    // Si todas las validaciones pasan, se crea el empleado en Firebase
-    this.crearEmpleado();
+    // Validar si el correo ya existe en Firestore
+    this.validarCorreoYCrearEmpleado();
   }
 
   isValidEmail(email: string): boolean {
@@ -70,19 +75,22 @@ export class CreateUserComponent {
     return /^[0-9]{7,15}$/.test(phone);
   }
 
-  async crearEmpleado() {
+  async validarCorreoYCrearEmpleado() {
     try {
-      const userCredential = await createUserWithEmailAndPassword(
-      this.auth,
-      this.empleado.persEmail,
-      this.empleado.persPassword
-    );
-      const uid = userCredential.user.uid;
-    const empleadosRef = collection(this.firestore, 'empleados');
-    await addDoc(empleadosRef, {
-      ...this.empleado,
-      uid
-    });
+      const empleadosRef = collection(this.firestore, 'empleados');
+      const q = query(
+        empleadosRef,
+        where('persEmail', '==', this.empleado.persEmail)
+      );
+      const querySnapshot = await getDocs(q);
+
+      if (!querySnapshot.empty) {
+        alert('El correo ya está registrado en la base de datos.');
+        return;
+      }
+
+      // Si no existe el correo, crea el empleado
+      await addDoc(empleadosRef, { ...this.empleado });
 
       // Reiniciar el formulario al estado inicial
       this.empleado = {
@@ -94,11 +102,13 @@ export class CreateUserComponent {
         persDateBirth: '',
         persRole: '',
         persEmail: '',
-        persPhone: ''
+        persPhone: '',
       };
+
+      alert('Empleado guardado correctamente.');
     } catch (error) {
       console.error(error);
-      alert('Error al crear el empleado');
+      alert('Error al guardar el empleado');
     }
   }
 }

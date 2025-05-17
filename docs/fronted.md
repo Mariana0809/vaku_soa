@@ -202,4 +202,110 @@ Aquí se insertan los tres componentes para que el usuario elija con qué autent
     <app-auth-github></app-auth-github>
     <app-auth-facebook></app-auth-facebook>
 </div>
+```
 
+
+# 📘 CRUD de Gestión de Empleados
+
+Permite gestionar empleados mediante un formulario de creación, una tabla de listado, opciones de edición mediante modal y eliminación de registros, todo integrado con **Angular** y **Firebase Firestore**.
+
+
+## 📂 Estructura del Proyecto
+
+- `CreateUserComponent` — Componente para crear empleados.
+- `ListUserComponent` — Componente para listar, editar y eliminar empleados.
+- Firebase Firestore — Base de datos NoSQL para persistencia.
+
+
+## 🧾 Formulario de Creación
+
+ 📍 Ubicación: `create-user.component.html`
+ 
+
+### 🧠 Funcionalidad
+
+- Registro de datos personales y profesionales del empleado.
+- Validación de campos requeridos, correo válido, teléfono válido y fecha de nacimiento no futura.
+- Verificación de unicidad del correo antes de guardar.
+
+### 🛠 Campos Incluidos
+
+| Campo               | Tipo     | Validación                         |
+|---------------------|----------|------------------------------------|
+| Nombres             | Texto    | Requerido                          |
+| Apellidos           | Texto    | Requerido                          |
+| Documento           | Texto    | Requerido                          |
+| Teléfono            | Numérico | 7-15 dígitos                        |
+| Correo              | Email    | Formato válido                     |
+| Dirección           | Texto    | Requerido                          |
+| Fecha de nacimiento | Fecha    | No puede ser futura                |
+| Rol                 | Select   | Enfermero / Jefe de enfermería     |
+| Sexo                | Select   | Masculino / Femenino               |
+| Contraseña          | Password | Requerido                          |
+
+### 🧩 Lógica Principal (`create-user.component.ts`)
+
+- `onSubmit()` — Maneja el envío del formulario con validaciones.
+- `validarCorreoYCrearEmpleado()` — Consulta Firestore para evitar duplicidad de correo.
+- `isValidEmail()` y `isValidPhone()` — Métodos auxiliares para validar formatos.
+
+---
+
+## 📋 Listado de Empleados
+
+📍 Ubicación: `list-user.component.html`
+
+### 💡 Características
+
+- Muestra una tabla con los empleados.
+- Botones para editar o eliminar registros.
+
+| Columna    | Contenido                      |
+|------------|--------------------------------|
+| Nombre     | Nombre completo del empleado   |
+| Documento  | Número de documento            |
+| Rol        | Cargo del empleado             |
+| Teléfono   | Número de contacto             |
+| Acciones   | Editar / Eliminar              |
+
+---
+
+## 📝 Edición de Empleado (Modal)
+
+### 🌐 Modal Desplegable
+
+Se muestra al presionar el botón "Editar".
+
+### ✏ Campos Editables
+
+- Rol
+- Correo
+- Teléfono
+- Dirección
+
+### 🔐 Validaciones
+
+Todos los campos son requeridos y deben contener texto válido.
+
+### 🔧 Métodos en `list-user.component.ts`
+
+- `abrirModal(empleado)` — Carga los datos en el modal.
+- `cerrarModal()` — Cierra y limpia el modal.
+- `guardarCambios()` — Valida y actualiza los datos en Firestore.
+- `eliminarEmpleado(id)` — Solicita confirmación y elimina el documento.
+
+---
+
+## 🧰 Dependencias
+
+- `@angular/forms`
+- `@angular/fire`
+
+---
+
+## 🧪 Validaciones Aplicadas
+
+- Validación de campos vacíos.
+- Validación de email y teléfono.
+- Validación de fecha de nacimiento.
+- Validación de unicidad del correo en Firestore.

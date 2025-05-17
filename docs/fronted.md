@@ -210,7 +210,7 @@ Aquí se insertan los tres componentes para que el usuario elija con qué autent
 Permite gestionar empleados mediante un formulario de creación, una tabla de listado, opciones de edición mediante modal y eliminación de registros, todo integrado con **Angular** y **Firebase Firestore**.
 
 
-## 📂 Estructura del Proyecto
+## 📂 Estructura
 
 - `CreateUserComponent` — Componente para crear empleados.
 - `ListUserComponent` — Componente para listar, editar y eliminar empleados.

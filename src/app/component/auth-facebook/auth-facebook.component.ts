@@ -14,7 +14,7 @@ import { SocialLoginService } from '../../services/social-login.service';
 export class AuthFacebookComponent {
   constructor(private socialLoginService: SocialLoginService) {}
 
-  async loginWithGoogle() {
+  async loginWithFacebook() {
     await this.socialLoginService.loginSocial(new FacebookAuthProvider());
   }
 }

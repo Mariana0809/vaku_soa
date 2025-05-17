@@ -14,7 +14,7 @@ import { SocialLoginService } from '../../services/social-login.service';
 export class AuthGithubComponent {
   constructor(private socialLoginService: SocialLoginService) {}
 
-  async loginWithGoogle() {
+  async loginWithGithub() {
     await this.socialLoginService.loginSocial(new GithubAuthProvider());
   }
 }

@@ -1,9 +1,10 @@
 import {RouterModule, Routes} from '@angular/router';
-import {LoginEmployeeComponent} from './component/login-employee/login-employee.component';
-import {NgModule} from '@angular/core';
-import { HomeComponent } from './component/home/home.component';
-import { CreateUserComponent } from './component/create-user/create-user.component';
-import {ListUserComponent} from './component/list-user/list-user.component';
+import { LoginEmployeeComponent } from './login-employee/login-employee.component';
+import { HomeComponent } from './home/home.component';
+import { CreateUserComponent } from './create-user/create-user.component';
+import { ListUserComponent } from './list-user/list-user.component';
+import { NgModule } from '@angular/core';
+
 
 export const routes: Routes = [
   {

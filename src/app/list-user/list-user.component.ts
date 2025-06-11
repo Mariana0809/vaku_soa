@@ -1,8 +1,8 @@
-import { Component, inject, OnInit } from '@angular/core';
-import { Firestore, collection, collectionData, deleteDoc, doc, updateDoc } from '@angular/fire/firestore';
-import { Router } from '@angular/router';
-import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { Component, inject, OnInit } from '@angular/core';
+import { collectionData, Firestore } from '@angular/fire/firestore';
+import { FormsModule } from '@angular/forms';
+import { collection, deleteDoc, doc, updateDoc } from 'firebase/firestore';
 
 @Component({
   selector: 'app-employees-list',

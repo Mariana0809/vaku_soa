@@ -1,20 +1,18 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthService } from '../../services/auth.service';
+import { AuthService } from '../services/auth.service';
 import { FormsModule } from '@angular/forms';
-import { AuthFacebookComponent } from '../auth-facebook/auth-facebook.component';
-import { AuthGithubComponent } from '../auth-github/auth-github.component';
 import { AuthGoogleComponent } from '../auth-google/auth-google.component';
-import { SocialLoginService } from '../../services/social-login.service';
+import { AuthGithubComponent } from '../auth-github/auth-github.component';
+import { AuthFacebookComponent } from '../auth-facebook/auth-facebook.component';
 
 @Component({
   selector: 'app-login-employee',
-  standalone: true,
   imports: [
     FormsModule,
-    AuthFacebookComponent,
-    AuthGithubComponent,
     AuthGoogleComponent,
+    AuthGithubComponent,
+    AuthFacebookComponent,
   ],
   templateUrl: './login-employee.component.html',
   styleUrl: './login-employee.component.css',
@@ -22,7 +20,7 @@ import { SocialLoginService } from '../../services/social-login.service';
 export class LoginEmployeeComponent {
   credenciales = { persEmail: '', persPassword: '' };
 
-  constructor(private authService: AuthService, private router: Router, private socialLoginService: SocialLoginService) {}
+  constructor(private authService: AuthService, private router: Router) {}
 
   // Iniciar sesión con correo
   logeearse(email: string, password: string) {

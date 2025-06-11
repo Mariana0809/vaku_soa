@@ -1,14 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import {
-  Firestore,
-  collection,
-  query,
-  where,
-  getDocs,
-  addDoc,
-} from '@angular/fire/firestore';
+import { Firestore, collection, query, where, getDocs, addDoc } from '@angular/fire/firestore';
+import { Auth, createUserWithEmailAndPassword } from '@angular/fire/auth';
 
 @Component({
   selector: 'app-create-user',
@@ -19,6 +13,7 @@ import {
 })
 export class CreateUserComponent {
   firestore = inject(Firestore);
+  auth = inject(Auth);
 
   empleado: any = {
     persNames: '',
@@ -30,6 +25,7 @@ export class CreateUserComponent {
     persRole: '',
     persEmail: '',
     persPhone: '',
+    persPassword: '', // Nuevo campo para la contraseña
   };
 
   onSubmit() {
@@ -42,19 +38,16 @@ export class CreateUserComponent {
       return;
     }
 
-    // Validación de correo electrónico
     if (!this.isValidEmail(this.empleado.persEmail)) {
       alert('Correo electrónico inválido');
       return;
     }
 
-    // Validación del teléfono: 7 a 15 dígitos numéricos
     if (!this.isValidPhone(this.empleado.persPhone)) {
       alert('Teléfono inválido. Debe contener solo números (7-15 dígitos)');
       return;
     }
 
-    // Validación de fecha de nacimiento (no puede ser futura)
     const birthDate = new Date(this.empleado.persDateBirth);
     const today = new Date();
     if (birthDate >= today) {
@@ -78,10 +71,7 @@ export class CreateUserComponent {
   async validarCorreoYCrearEmpleado() {
     try {
       const empleadosRef = collection(this.firestore, 'empleados');
-      const q = query(
-        empleadosRef,
-        where('persEmail', '==', this.empleado.persEmail)
-      );
+      const q = query(empleadosRef, where('persEmail', '==', this.empleado.persEmail));
       const querySnapshot = await getDocs(q);
 
       if (!querySnapshot.empty) {
@@ -89,10 +79,24 @@ export class CreateUserComponent {
         return;
       }
 
-      // Si no existe el correo, crea el empleado
-      await addDoc(empleadosRef, { ...this.empleado });
+      // Registrar en Authentication
+      const userCredential = await createUserWithEmailAndPassword(
+        this.auth,
+        this.empleado.persEmail,
+        this.empleado.persPassword // Firebase la encripta automáticamente
+      );
 
-      // Reiniciar el formulario al estado inicial
+      // Eliminar la contraseña antes de guardar en Firestore
+      const empleadoSinPassword = { ...this.empleado };
+      delete empleadoSinPassword.persPassword;
+
+      // Agregar UID al documento Firestore
+      await addDoc(empleadosRef, {
+        ...empleadoSinPassword,
+        uid: userCredential.user.uid,
+      });
+
+      // Reiniciar formulario
       this.empleado = {
         persNames: '',
         persLastNames: '',
@@ -103,12 +107,13 @@ export class CreateUserComponent {
         persRole: '',
         persEmail: '',
         persPhone: '',
+        persPassword: '',
       };
 
-      alert('Empleado guardado correctamente.');
-    } catch (error) {
-      console.error(error);
-      alert('Error al guardar el empleado');
+      alert('Empleado registrado correctamente en Auth y Firestore.');
+    } catch (error: any) {
+      console.error('Error al crear usuario:', error);
+      alert(`Error al registrar usuario: ${error.message}`);
     }
   }
 }

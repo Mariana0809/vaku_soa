@@ -4,6 +4,7 @@ import { HomeComponent } from './home/home.component';
 import { CreateUserComponent } from './create-user/create-user.component';
 import { ListUserComponent } from './list-user/list-user.component';
 import { NgModule } from '@angular/core';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
 
 
 export const routes: Routes = [
@@ -19,7 +20,8 @@ export const routes: Routes = [
       { path: 'list-user', component: ListUserComponent },
       { path: '', redirectTo: 'list-user', pathMatch: 'full'}
     ]
-  }
+  },
+  { path: 'reset-password', component: ResetPasswordComponent }
 ];
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

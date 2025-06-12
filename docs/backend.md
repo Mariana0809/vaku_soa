@@ -125,3 +125,133 @@ Este conjunto de componentes Angular permite gestionar empleados en Firestore, i
 
 - `guardarCambios()`  
   Valida los campos requeridos y actualiza el documento del empleado en Firestore con los cambios realizados.
+
+
+
+
+# 📄 Filtros - Historial de Acceso
+
+## Descripción General
+
+A continuación se detallan todos los filtros aplicados en el componente `AccessHistoryComponent` para visualizar el historial de accesos de usuarios.
+
+---
+
+## 1. 🔍 Filtro por Correo Electrónico
+
+### Objetivo
+Permitir la búsqueda de registros cuyo campo `email` contenga una cadena de texto especificada por el usuario.
+
+### Funcionamiento
+- La búsqueda es **insensible a mayúsculas y minúsculas**.
+- Se aplica sobre el array completo `listAccess`.
+- Si el campo de búsqueda está vacío, no se aplica filtro.
+
+### Código
+
+```typescript
+if (this.searchEmail.trim() !== '') {
+  filtered = filtered.filter((access) =>
+    access.email.toLowerCase().includes(this.searchEmail.toLowerCase())
+  );
+}
+```
+
+### Entrada esperada
+- Texto ingresado en el campo de búsqueda.
+
+### Resultado
+- Lista de registros cuyo campo `email` contiene el texto buscado.
+
+---
+
+## 2. 🔍 Filtro por Proveedor de Autenticación
+
+### Objetivo
+Filtrar los registros de acceso según el proveedor de autenticación seleccionado (por ejemplo: `google`, `facebook`, etc.).
+
+### Funcionamiento
+- El filtro se aplica solo si el usuario selecciona un proveedor distinto de "Todos".
+- Los proveedores disponibles son calculados dinámicamente desde los datos cargados.
+
+### Código
+
+```typescript
+if (this.filterProvider !== '') {
+  filtered = filtered.filter(
+    (access) => access.provider === this.filterProvider
+  );
+}
+```
+
+### Entrada esperada
+- Valor seleccionado en el campo `select` de proveedores.
+
+### Resultado
+- Lista de registros cuyo campo `provider` coincide con la opción seleccionada.
+
+---
+
+## 3. 📅 Filtro por Rango de Fechas
+
+### Objetivo
+Mostrar solo los registros cuya fecha de acceso (`fechaAcceso`) se encuentra entre dos fechas especificadas por el usuario.
+
+### Funcionamiento
+- Si ambas fechas (`startDate` y `endDate`) están definidas, el filtro se aplica.
+- La hora de la fecha final se ajusta a 23:59:59 para incluir todo el día.
+- Si alguna fecha está vacía, el filtro no se aplica.
+
+### Código
+
+```typescript
+if (this.startDate && this.endDate) {
+  const start = new Date(this.startDate);
+  const end = new Date(this.endDate);
+  end.setHours(23, 59, 59, 999);
+
+  filtered = filtered.filter((access) => {
+    const accessDate = access.fechaAcceso?.toDate();
+    return accessDate >= start && accessDate <= end;
+  });
+}
+```
+
+### Entrada esperada
+- Fecha de inicio (`startDate`).
+- Fecha de fin (`endDate`).
+
+### Resultado
+- Lista de registros cuya `fechaAcceso` está en el rango especificado.
+
+---
+
+## 4. 🔄 Ordenamiento por Fecha de Acceso
+
+### Objetivo
+Ordenar los registros por la fecha de acceso (`fechaAcceso`) en orden ascendente o descendente según selección del usuario.
+
+### Funcionamiento
+- Si la opción seleccionada es `'asc'`, se ordenan de más antiguo a más reciente.
+- Si la opción seleccionada es `'desc'`, se ordenan de más reciente a más antiguo.
+
+### Código
+
+```typescript
+filtered = filtered.sort((a, b) => {
+  const dateA = a.fechaAcceso?.toDate();
+  const dateB = b.fechaAcceso?.toDate();
+
+  if (!dateA || !dateB) return 0;
+
+  return this.sortOrder === 'asc'
+    ? dateA.getTime() - dateB.getTime()
+    : dateB.getTime() - dateA.getTime();
+});
+```
+
+### Entrada esperada
+- Valor `'asc'` o `'desc'` del campo `sortOrder`.
+
+### Resultado
+- Lista ordenada según la fecha de acceso.

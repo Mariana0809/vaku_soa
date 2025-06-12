@@ -13,5 +13,25 @@
         <th class="px-4 py-3 border-b">Provedor</th>
       </tr>
     </thead>
+    <tbody>
+      <tr *ngFor="let access of listAccess" class="hover:bg-gray-50 transition">
+        <td class="px-4 py-3 border-b text-sm text-gray-700">
+          {{ access.email }}
+        </td>
+        <td class="px-4 py-3 border-b text-sm text-gray-600">
+          {{ access.fechaAcceso?.toDate() | date : "dd/MM/yyyy - HH:mm:ss" }}
+        </td>
+        <td class="px-4 py-3 border-b">
+          <img
+            [src]="access.photoURL"
+            alt="Foto"
+            class="w-10 h-10 rounded-full border border-gray-300 shadow-sm"
+          />
+        </td>
+        <td class="px-4 py-3 border-b text-sm capitalize text-gray-700">
+          {{ access.provider }}
+        </td>
+      </tr>
+    </tbody>
   </table>
 </div>

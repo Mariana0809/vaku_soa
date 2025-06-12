@@ -8,7 +8,7 @@ export class AuthService {
   private firestore = inject(Firestore);
 
   constructor(private auth: Auth) {}
-
+// guardar historial de acceso
   private async guardarHistorialAcceso(user: any, provider: string, screenName?: string) {
     if (!user) return;
     try {
@@ -36,6 +36,7 @@ export class AuthService {
       alert('[HISTORIAL] Error guardando acceso: ' + (e?.message ?? e));
     }
   }
+
 
   async loginWithGoogle(): Promise<UserCredential> {
   const provider = new GoogleAuthProvider();

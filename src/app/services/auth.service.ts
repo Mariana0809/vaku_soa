@@ -14,8 +14,8 @@ export class AuthService {
     try {
       const userData: any = {
         uid: user.uid || '',
-        email: user.email || '',
-        displayName: user.displayName || '',
+        email: user.email ? user.email : 'No disponible',
+        displayName: user.displayName ? user.displayName : 'No disponible',
         photoURL: user.photoURL || '',
         provider,
         fechaAcceso: serverTimestamp(),
@@ -33,6 +33,7 @@ export class AuthService {
   provider.addScope('profile');
   provider.addScope('email');
   const result = await signInWithPopup(this.auth, provider);
+  console.log('RESULT USER:', result.user);
   this.guardarHistorialAcceso(result.user, 'google');
   return result;
 }

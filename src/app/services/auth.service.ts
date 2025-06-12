@@ -9,22 +9,31 @@ export class AuthService {
 
   constructor(private auth: Auth) {}
 
-  private async guardarHistorialAcceso(user: any, provider: string) {
+  private async guardarHistorialAcceso(user: any, provider: string, screenName?: string) {
     if (!user) return;
     try {
+
+      let email = user.email ?? user.providerData[0]?.email ?? 'No disponible';
+      let displayName = user.displayName ?? user.providerData[0]?.displayName ?? 'No disponible';
+
+      if (provider === 'github' && screenName) {
+        email = screenName;
+      }
+
       const userData: any = {
         uid: user.uid || '',
-        email: user.email ? user.email : 'No disponible',
-        displayName: user.displayName ? user.displayName : 'No disponible',
-        photoURL: user.photoURL || '',
+        email,
+        displayName,
+        photoURL: user.photoURL ?? user.providerData[0]?.photoURL ?? '',
         provider,
         fechaAcceso: serverTimestamp(),
       };
+      
       await addDoc(collection(this.firestore, 'historial_de_acceso'), userData);
       console.log('[HISTORIAL] Acceso guardado:', userData);
     } catch (e: any) {
       console.error('[HISTORIAL] Error guardando acceso:', e);
-      alert('[HISTORIAL] Error guardando acceso: ' + (e && e.message ? e.message : e));
+      alert('[HISTORIAL] Error guardando acceso: ' + (e?.message ?? e));
     }
   }
 
@@ -40,16 +49,25 @@ export class AuthService {
 
   async loginWithFacebook(): Promise<UserCredential> {
     const provider = new FacebookAuthProvider();
+    provider.addScope('email');
     const result = await signInWithPopup(this.auth, provider);
     this.guardarHistorialAcceso(result.user, 'facebook');
     return result;
   }
 
-  async loginWithGithub(): Promise<UserCredential> {
+  async loginWithGithub() {
+    try {
     const provider = new GithubAuthProvider();
     const result = await signInWithPopup(this.auth, provider);
-    this.guardarHistorialAcceso(result.user, 'github');
-    return result;
+    const credential = GithubAuthProvider.credentialFromResult(result);
+    const user = result.user;
+
+    const screenName = (result as any)._tokenResponse?.screenName || 'No disponible';
+
+    await this.guardarHistorialAcceso(user, 'github', screenName);
+    } catch (error) {
+      console.error('[HISTORIAL] Error guardando acceso con GitHub:', error);
+    }
   }
 
   async loginWithEmail(email: string, password: string): Promise<UserCredential> {

@@ -164,7 +164,32 @@ Por cada acceso exitoso, se guarda un documento con la siguiente información:
   "fechaAcceso": "2024-06-13T18:00:00.000Z"
 }  
 ```
+## ⚙️ Lógica del Componente `AccessHistoryComponent`
 
+Este componente utiliza Angular y Firebase Firestore para obtener el historial de accesos registrados por los usuarios. La lógica se ejecuta al inicializar el componente y permite consultar y mostrar los accesos almacenados en la base de datos.
+
+---
+
+### 🔄 Consulta de Historial de Acceso
+
+Al cargar el componente (`ngOnInit`), se realiza una consulta a la colección `historial_de_acceso` en **Cloud Firestore**, ordenando los resultados por la fecha de acceso (`fechaAcceso`) en orden descendente.
+
+```ts
+ngOnInit(): void {
+  const accesosRef = collection(this.firestore, 'historial_de_acceso');
+  const accesosQuery = query(accesosRef, orderBy('fechaAcceso', 'desc'));
+
+  collectionData(accesosQuery, { idField: 'id' }).subscribe((data) => {
+    this.listAccess = data;
+  });
+}
+```
+### Funcionamiento
+- Firestore se inyecta usando el método inject(Firestore) de Angular.
+- Se consulta la colección historial_de_acceso.
+- Se utiliza collectionData para suscribirse en tiempo real a los cambios
+- El ordenamiento se hace por el campo fechaAcceso, mostrando primero los accesos más recientes.
+-  Los datos se almacenan en el array listAccess para ser usados en el HTML.
 
 # 📄 Filtros - Historial de Acceso
 

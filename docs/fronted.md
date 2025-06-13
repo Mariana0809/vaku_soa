@@ -204,7 +204,31 @@ Aquí se insertan los tres componentes para que el usuario elija con qué autent
     <app-auth-facebook></app-auth-facebook>
 </div>
 ```
+## 🧾 Listar Usuarios Autenticados
+## 🧾 Componente Para listar Usuario autenticados: access-history 
 
+Este componente en Angular se encarga de mostrar el historial de accesos registrados por los usuarios del sistema. Los datos se obtienen desde **Cloud Firestore (Firebase)**, específicamente desde la colección `historial_de_acceso`.
+
+### 🎨 Interfaz de Usuario (HTML)
+
+- 📋 **Tabla de historial:**
+  - Muestra una lista de accesos obtenida desde la base de datos **Cloud Firestore (Firebase)**.
+  - Cada fila incluye:
+    - `📧 Email del usuario`
+    - `🕒 Fecha y hora de acceso` (formateada con Angular Pipe `date`)
+    - `🖼️ Foto de perfil`
+    - `🔐 Proveedor de autenticación`
+
+```html
+<tr *ngFor="let access of listAccess">
+  <td>{{ access.email }}</td>
+  <td>{{ access.fechaAcceso?.toDate() | date: 'dd/MM/yyyy - HH:mm:ss' }}</td>
+  <td>
+    <img [src]="access.photoURL" class="w-10 h-10 rounded-full" />
+  </td>
+  <td>{{ access.provider }}</td>
+</tr>
+```
 # 📄 Filtros - Historial de Acceso
 
 ## Descripción General

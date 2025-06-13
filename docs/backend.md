@@ -125,3 +125,195 @@ Este conjunto de componentes Angular permite gestionar empleados en Firestore, i
 
 - `guardarCambios()`  
   Valida los campos requeridos y actualiza el documento del empleado en Firestore con los cambios realizados.
+
+
+# Historial de Acceso en Firestore
+
+## ¿Qué es el historial de acceso?
+
+El historial de acceso es una colección en Firestore llamada `historial_de_acceso` donde se almacena un registro cada vez que un usuario inicia sesión en el sistema, sin importar el método de autenticación (correo/contraseña, Google, Facebook, GitHub, etc.).
+
+## ¿Qué datos se guardan?
+
+Por cada acceso exitoso, se guarda un documento con la siguiente información:
+
+- **uid**: Identificador único del usuario en Firebase Authentication.
+- **email**: Correo electrónico del usuario. Si no está disponible, se guarda como `"No disponible"`.
+- **displayName**: Nombre visible del usuario. Si no está disponible, se guarda como `"No disponible"`.
+- **photoURL**: URL de la foto de perfil del usuario (si existe).
+- **provider**: Método de autenticación usado (`google`, `facebook`, `github`, `email`, etc.).
+- **fechaAcceso**: Fecha y hora exacta del acceso, usando `serverTimestamp()` de Firestore (hora del servidor, no del cliente).
+
+## ¿Cómo funciona?
+
+1. **Después de cada login exitoso**, se llama al método `guardarHistorialAcceso`.
+2. Este método construye un objeto con los datos del usuario y el método de autenticación.
+3. Si el email o el nombre no están disponibles, se guarda el texto `"No disponible"`.
+4. El registro se guarda en la colección `historial_de_acceso` usando `addDoc`, lo que garantiza que nunca se sobrescriben registros (se permiten duplicados).
+5. Si ocurre un error al guardar, se muestra un mensaje en consola y un alert, pero el login no se ve afectado.
+
+## Ejemplo de documento en Firestore
+
+```json
+{
+  "uid": "abc123xyz",
+  "email": "usuario@ejemplo.com",
+  "displayName": "Juan Pérez",
+  "photoURL": "https://...",
+  "provider": "google",
+  "fechaAcceso": "2024-06-13T18:00:00.000Z"
+}  
+```
+## ⚙️ Lógica del Componente `AccessHistoryComponent`
+
+Este componente utiliza Angular y Firebase Firestore para obtener el historial de accesos registrados por los usuarios. La lógica se ejecuta al inicializar el componente y permite consultar y mostrar los accesos almacenados en la base de datos.
+
+---
+
+### 🔄 Consulta de Historial de Acceso
+
+Al cargar el componente (`ngOnInit`), se realiza una consulta a la colección `historial_de_acceso` en **Cloud Firestore**, ordenando los resultados por la fecha de acceso (`fechaAcceso`) en orden descendente.
+
+```ts
+ngOnInit(): void {
+  const accesosRef = collection(this.firestore, 'historial_de_acceso');
+  const accesosQuery = query(accesosRef, orderBy('fechaAcceso', 'desc'));
+
+  collectionData(accesosQuery, { idField: 'id' }).subscribe((data) => {
+    this.listAccess = data;
+  });
+}
+```
+### Funcionamiento
+- Firestore se inyecta usando el método inject(Firestore) de Angular.
+- Se consulta la colección historial_de_acceso.
+- Se utiliza collectionData para suscribirse en tiempo real a los cambios
+- El ordenamiento se hace por el campo fechaAcceso, mostrando primero los accesos más recientes.
+-  Los datos se almacenan en el array listAccess para ser usados en el HTML.
+
+# 📄 Filtros - Historial de Acceso
+
+## Descripción General
+
+A continuación se detallan todos los filtros aplicados en el componente `AccessHistoryComponent` para visualizar el historial de accesos de usuarios.
+
+---
+
+## 1. 🔍 Filtro por Correo Electrónico
+
+### Objetivo
+Permitir la búsqueda de registros cuyo campo `email` contenga una cadena de texto especificada por el usuario.
+
+### Funcionamiento
+- La búsqueda es **insensible a mayúsculas y minúsculas**.
+- Se aplica sobre el array completo `listAccess`.
+- Si el campo de búsqueda está vacío, no se aplica filtro.
+
+### Código
+
+```typescript
+if (this.searchEmail.trim() !== '') {
+  filtered = filtered.filter((access) =>
+    access.email.toLowerCase().includes(this.searchEmail.toLowerCase())
+  );
+}
+```
+
+### Entrada esperada
+- Texto ingresado en el campo de búsqueda.
+
+### Resultado
+- Lista de registros cuyo campo `email` contiene el texto buscado.
+
+---
+
+## 2. 🔍 Filtro por Proveedor de Autenticación
+
+### Objetivo
+Filtrar los registros de acceso según el proveedor de autenticación seleccionado (por ejemplo: `google`, `facebook`, etc.).
+
+### Funcionamiento
+- El filtro se aplica solo si el usuario selecciona un proveedor distinto de "Todos".
+- Los proveedores disponibles son calculados dinámicamente desde los datos cargados.
+
+### Código
+
+```typescript
+if (this.filterProvider !== '') {
+  filtered = filtered.filter(
+    (access) => access.provider === this.filterProvider
+  );
+}
+```
+
+### Entrada esperada
+- Valor seleccionado en el campo `select` de proveedores.
+
+### Resultado
+- Lista de registros cuyo campo `provider` coincide con la opción seleccionada.
+
+---
+
+## 3. 📅 Filtro por Rango de Fechas
+
+### Objetivo
+Mostrar solo los registros cuya fecha de acceso (`fechaAcceso`) se encuentra entre dos fechas especificadas por el usuario.
+
+### Funcionamiento
+- Si ambas fechas (`startDate` y `endDate`) están definidas, el filtro se aplica.
+- La hora de la fecha final se ajusta a 23:59:59 para incluir todo el día.
+- Si alguna fecha está vacía, el filtro no se aplica.
+
+### Código
+
+```typescript
+if (this.startDate && this.endDate) {
+  const start = new Date(this.startDate);
+  const end = new Date(this.endDate);
+  end.setHours(23, 59, 59, 999);
+
+  filtered = filtered.filter((access) => {
+    const accessDate = access.fechaAcceso?.toDate();
+    return accessDate >= start && accessDate <= end;
+  });
+}
+```
+
+### Entrada esperada
+- Fecha de inicio (`startDate`).
+- Fecha de fin (`endDate`).
+
+### Resultado
+- Lista de registros cuya `fechaAcceso` está en el rango especificado.
+
+---
+
+## 4. 🔄 Ordenamiento por Fecha de Acceso
+
+### Objetivo
+Ordenar los registros por la fecha de acceso (`fechaAcceso`) en orden ascendente o descendente según selección del usuario.
+
+### Funcionamiento
+- Si la opción seleccionada es `'asc'`, se ordenan de más antiguo a más reciente.
+- Si la opción seleccionada es `'desc'`, se ordenan de más reciente a más antiguo.
+
+### Código
+
+```typescript
+filtered = filtered.sort((a, b) => {
+  const dateA = a.fechaAcceso?.toDate();
+  const dateB = b.fechaAcceso?.toDate();
+
+  if (!dateA || !dateB) return 0;
+
+  return this.sortOrder === 'asc'
+    ? dateA.getTime() - dateB.getTime()
+    : dateB.getTime() - dateA.getTime();
+});
+```
+
+### Entrada esperada
+- Valor `'asc'` o `'desc'` del campo `sortOrder`.
+
+### Resultado
+- Lista ordenada según la fecha de acceso.

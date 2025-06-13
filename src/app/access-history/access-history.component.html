@@ -1,0 +1,84 @@
+<div class="p-4">
+  <h2 class="text-xl font-bold mb-4">Historial de acceso</h2>
+
+  <div class="flex gap-4">
+    <!-- Buscador por email -->
+    <div class="w-full">
+      <div class="font-bold">Correo</div>
+      <input
+        type="text"
+        [(ngModel)]="searchEmail"
+        placeholder="Buscar por email..."
+        class="border p-2 mb-4 w-full"
+      />
+    </div>
+
+    <!-- Filtro por proveedor -->
+    <div class="w-full">
+      <div class="font-bold">Proveedor</div>
+      <select [(ngModel)]="filterProvider" class="border p-2 mb-4 w-full">
+        <option value="">Todos los proveedores</option>
+        <option *ngFor="let provider of uniqueProviders" [value]="provider">
+          {{ provider }}
+        </option>
+      </select>
+    </div>
+
+    <!-- Filtro por rango de fechas -->
+    <div class="flex gap-2 mb-4 w-full">
+      <div>
+        <div class="font-bold">Fecha Inicial</div>
+        <input type="date" [(ngModel)]="startDate" class="border p-2 w-full" />
+      </div>
+      <div>
+        <div class="font-bold">Fecha Final</div>
+        <input type="date" [(ngModel)]="endDate" class="border p-2 w-full" />
+      </div>
+    </div>
+
+    <!-- Ordenamiento por fecha -->
+    <div class="w-full">
+      <div class="font-bold">Ordenamiento ASC DESC</div>
+      <select [(ngModel)]="sortOrder" class="border p-2 mb-4 w-full">
+        <option value="desc">Más reciente</option>
+        <option value="asc">Más antiguo</option>
+      </select>
+    </div>
+  </div>
+
+  <table
+    class="min-w-full table-auto border border-gray-300 rounded-lg overflow-hidden"
+  >
+    <thead class="bg-gray-100 text-gray-800 text-left">
+      <tr>
+        <th class="px-4 py-3 border-b">Email</th>
+        <th class="px-4 py-3 border-b">Fecha de acceso</th>
+        <th class="px-4 py-3 border-b">Foto</th>
+        <th class="px-4 py-3 border-b">Proveedor</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr
+        *ngFor="let access of filteredAndSortedAccess"
+        class="hover:bg-gray-50 transition"
+      >
+        <td class="px-4 py-3 border-b text-sm text-gray-700">
+          {{ access.email }}
+        </td>
+        <td class="px-4 py-3 border-b text-sm text-gray-600">
+          {{ access.fechaAcceso?.toDate() | date : "dd/MM/yyyy - HH:mm:ss" }}
+        </td>
+        <td class="px-4 py-3 border-b">
+          <img
+            [src]="access.photoURL"
+            alt="Foto"
+            class="w-10 h-10 rounded-full border border-gray-300 shadow-sm"
+          />
+        </td>
+        <td class="px-4 py-3 border-b text-sm capitalize text-gray-700">
+          {{ access.provider }}
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

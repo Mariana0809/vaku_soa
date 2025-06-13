@@ -127,6 +127,43 @@ Este conjunto de componentes Angular permite gestionar empleados en Firestore, i
   Valida los campos requeridos y actualiza el documento del empleado en Firestore con los cambios realizados.
 
 
+# Historial de Acceso en Firestore
+
+## ¿Qué es el historial de acceso?
+
+El historial de acceso es una colección en Firestore llamada `historial_de_acceso` donde se almacena un registro cada vez que un usuario inicia sesión en el sistema, sin importar el método de autenticación (correo/contraseña, Google, Facebook, GitHub, etc.).
+
+## ¿Qué datos se guardan?
+
+Por cada acceso exitoso, se guarda un documento con la siguiente información:
+
+- **uid**: Identificador único del usuario en Firebase Authentication.
+- **email**: Correo electrónico del usuario. Si no está disponible, se guarda como `"No disponible"`.
+- **displayName**: Nombre visible del usuario. Si no está disponible, se guarda como `"No disponible"`.
+- **photoURL**: URL de la foto de perfil del usuario (si existe).
+- **provider**: Método de autenticación usado (`google`, `facebook`, `github`, `email`, etc.).
+- **fechaAcceso**: Fecha y hora exacta del acceso, usando `serverTimestamp()` de Firestore (hora del servidor, no del cliente).
+
+## ¿Cómo funciona?
+
+1. **Después de cada login exitoso**, se llama al método `guardarHistorialAcceso`.
+2. Este método construye un objeto con los datos del usuario y el método de autenticación.
+3. Si el email o el nombre no están disponibles, se guarda el texto `"No disponible"`.
+4. El registro se guarda en la colección `historial_de_acceso` usando `addDoc`, lo que garantiza que nunca se sobrescriben registros (se permiten duplicados).
+5. Si ocurre un error al guardar, se muestra un mensaje en consola y un alert, pero el login no se ve afectado.
+
+## Ejemplo de documento en Firestore
+
+```json
+{
+  "uid": "abc123xyz",
+  "email": "usuario@ejemplo.com",
+  "displayName": "Juan Pérez",
+  "photoURL": "https://...",
+  "provider": "google",
+  "fechaAcceso": "2024-06-13T18:00:00.000Z"
+}  
+```
 
 
 # 📄 Filtros - Historial de Acceso

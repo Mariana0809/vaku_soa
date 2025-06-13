@@ -1,20 +1,39 @@
 import { inject, Injectable } from '@angular/core';
 import { Auth, UserCredential } from '@angular/fire/auth';
-import { Firestore, addDoc, collection, serverTimestamp } from '@angular/fire/firestore';
-import { FacebookAuthProvider, GithubAuthProvider, GoogleAuthProvider, sendPasswordResetEmail, signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
+import {
+  Firestore,
+  addDoc,
+  collection,
+  serverTimestamp,
+} from '@angular/fire/firestore';
+import {
+  FacebookAuthProvider,
+  GithubAuthProvider,
+  GoogleAuthProvider,
+  sendPasswordResetEmail,
+  signInWithEmailAndPassword,
+  signInWithPopup,
+} from 'firebase/auth';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   private firestore = inject(Firestore);
 
   constructor(private auth: Auth) {}
-// guardar historial de acceso
-  private async guardarHistorialAcceso(user: any, provider: string, screenName?: string) {
+
+  // guardar historial de acceso
+  private async guardarHistorialAcceso(
+    user: any,
+    provider: string,
+    screenName?: string
+  ) {
     if (!user) return;
     try {
-
       let email = user.email ?? user.providerData[0]?.email ?? 'No disponible';
-      let displayName = user.displayName ?? user.providerData[0]?.displayName ?? 'No disponible';
+      let displayName =
+        user.displayName ??
+        user.providerData[0]?.displayName ??
+        'No disponible';
 
       if (provider === 'github' && screenName) {
         email = screenName;
@@ -28,7 +47,7 @@ export class AuthService {
         provider,
         fechaAcceso: serverTimestamp(),
       };
-      
+
       await addDoc(collection(this.firestore, 'historial_de_acceso'), userData);
       console.log('[HISTORIAL] Acceso guardado:', userData);
     } catch (e: any) {
@@ -37,16 +56,15 @@ export class AuthService {
     }
   }
 
-
   async loginWithGoogle(): Promise<UserCredential> {
-  const provider = new GoogleAuthProvider();
-  provider.addScope('profile');
-  provider.addScope('email');
-  const result = await signInWithPopup(this.auth, provider);
-  console.log('RESULT USER:', result.user);
-  this.guardarHistorialAcceso(result.user, 'google');
-  return result;
-}
+    const provider = new GoogleAuthProvider();
+    provider.addScope('profile');
+    provider.addScope('email');
+    const result = await signInWithPopup(this.auth, provider);
+    console.log('RESULT USER:', result.user);
+    this.guardarHistorialAcceso(result.user, 'google');
+    return result;
+  }
 
   async loginWithFacebook(): Promise<UserCredential> {
     const provider = new FacebookAuthProvider();
@@ -58,20 +76,24 @@ export class AuthService {
 
   async loginWithGithub() {
     try {
-    const provider = new GithubAuthProvider();
-    const result = await signInWithPopup(this.auth, provider);
-    const credential = GithubAuthProvider.credentialFromResult(result);
-    const user = result.user;
+      const provider = new GithubAuthProvider();
+      const result = await signInWithPopup(this.auth, provider);
+      const credential = GithubAuthProvider.credentialFromResult(result);
+      const user = result.user;
 
-    const screenName = (result as any)._tokenResponse?.screenName || 'No disponible';
+      const screenName =
+        (result as any)._tokenResponse?.screenName || 'No disponible';
 
-    await this.guardarHistorialAcceso(user, 'github', screenName);
+      await this.guardarHistorialAcceso(user, 'github', screenName);
     } catch (error) {
       console.error('[HISTORIAL] Error guardando acceso con GitHub:', error);
     }
   }
 
-  async loginWithEmail(email: string, password: string): Promise<UserCredential> {
+  async loginWithEmail(
+    email: string,
+    password: string
+  ): Promise<UserCredential> {
     const result = await signInWithEmailAndPassword(this.auth, email, password);
     this.guardarHistorialAcceso(result.user, 'email');
     return result;
